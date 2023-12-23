@@ -10,6 +10,7 @@ namespace WPFProject
         private Point startPoint;
         private RectangleGeometry selectionRectangle;
         private bool isSelectingArea = false;
+        private bool isTransparent = false;
 
         public MainWindow()
         {
@@ -31,10 +32,21 @@ namespace WPFProject
             if (isSelectingArea)
             {
                 selectionRectangleRect.Visibility = Visibility.Visible;
+
+                WindowState = WindowState.Maximized;
+                WindowStyle = WindowStyle.None;
+
+                this.Opacity = 0.5;
+                isTransparent = true;
             }
             else
             {
                 selectionRectangleRect.Visibility = Visibility.Collapsed;
+                WindowState = WindowState.Normal;
+                WindowStyle = WindowStyle.None;
+
+                this.Opacity = 1;
+                isTransparent = false;
             }
         }
 

@@ -4,7 +4,8 @@
         Title="Screen Area Capture" Width="800" Height="600"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
-        MouseMove="Window_MouseMove">
+        MouseMove="Window_MouseMove"
+        WindowStyle="None" AllowsTransparency="True" Background="White">
     <Grid>
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
