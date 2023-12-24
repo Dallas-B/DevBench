@@ -7,6 +7,14 @@
         MouseMove="Window_MouseMove"
         WindowStyle="None" AllowsTransparency="True" Background="White">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="MinimizeButton" Content="_" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Click="MinimizeButton_Click" Margin="0,0,60,0"/>
+        <Button x:Name="MaximizeRestoreButton" Content="□" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Click="MaximizeRestoreButton_Click" Margin="0,0,30,0"/>
+        <Button x:Name="CloseButton" Content="X" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Click="CloseButton_Click"/>
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
         </Canvas>
