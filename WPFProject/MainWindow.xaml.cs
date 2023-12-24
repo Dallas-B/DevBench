@@ -11,6 +11,7 @@ namespace WPFProject
         private RectangleGeometry selectionRectangle;
         private bool isSelectingArea = false;
         private bool isTransparent = false;
+        private bool isDragging = false;
 
         public MainWindow()
         {
@@ -52,6 +53,11 @@ namespace WPFProject
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.ChangedButton == MouseButton.Left && e.GetPosition(this).Y <= 25)
+            {
+                isDragging = true;
+                startPoint = e.GetPosition(this);
+            }
             if (isSelectingArea)
             {
                 startPoint = e.GetPosition(this);
@@ -66,6 +72,16 @@ namespace WPFProject
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
+            if (isDragging)
+            {
+                Point currentPosition = e.GetPosition(this);
+
+                double differenceX = currentPosition.X - startPoint.X;
+                double differenceY = currentPosition.Y - startPoint.Y;
+
+                Left += differenceX;
+                Top += differenceY;
+            }
             if (isSelectingArea && e.LeftButton == MouseButtonState.Pressed)
             {
                 Point currentPoint = e.GetPosition(this);
@@ -84,6 +100,10 @@ namespace WPFProject
 
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                isDragging = false;
+            }
             if (isSelectingArea)
             {
                 Point endPoint = e.GetPosition(this);
