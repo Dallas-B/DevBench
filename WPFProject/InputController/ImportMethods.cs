@@ -45,5 +45,8 @@ namespace WPFProject.InputController
 
         [DllImport("user32.dll")]
         public static extern IntPtr FindWindow(string className, string windowTitle);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
     }
 }

@@ -18,7 +18,8 @@
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
         </Canvas>
-        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,64,0,0"/>
+        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,68,0,0"/>
+        <Button Content="Inject Input" Click="InjectInput_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,68,0,0"/>
         <TextBox x:Name="CoordinatesTextBox"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Top"

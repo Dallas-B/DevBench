@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using WPFProject.InputController;
 
 namespace WPFProject
 {
@@ -48,6 +49,48 @@ namespace WPFProject
 
                 this.Opacity = 1;
                 isTransparent = false;
+            }
+        }
+
+        private void InjectInput_Click(object sender, RoutedEventArgs e)
+        {
+            // Parse the coordinates from the CoordinatesTextBox
+            string[] lines = CoordinatesTextBox.Text.Split('\n');
+            if (lines.Length == 2)
+            {
+                try
+                {
+                    // Extract the values for Top Left and Bottom Right
+                    string[] topLeftValues = lines[0].Replace("Top Left: (", "").Replace(")", "").Split(',');
+                    string[] bottomRightValues = lines[1].Replace("Bottom Right: (", "").Replace(")", "").Split(',');
+
+                    int x1 = int.Parse(topLeftValues[0]);
+                    int y1 = int.Parse(topLeftValues[1]);
+                    int x2 = int.Parse(bottomRightValues[0]);
+                    int y2 = int.Parse(bottomRightValues[1]);
+
+                    // Determine the bounds for random number generation
+                    int minX = Math.Min(x1, x2);
+                    int maxX = Math.Max(x1, x2);
+                    int minY = Math.Min(y1, y2);
+                    int maxY = Math.Max(y1, y2);
+
+                    // Generate random values within the bounds
+                    Random random = new Random();
+                    int randomX = random.Next(minX, maxX);
+                    int randomY = random.Next(minY, maxY);
+
+                    IInputInjector injector = new InputInjector();
+                    injector.InjectMouseClick(randomX, randomY);
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Error: Invalid format in coordinates.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: Coordinates are not properly formatted.");
             }
         }
 

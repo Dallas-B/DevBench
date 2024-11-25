@@ -7,6 +7,20 @@ namespace WPFProject.InputController
         public const int LeftMouseButtonDown = 0x201;
         public const int LeftMouseButtonUp = 0x202;
 
+        public bool InjectMouseClick(int xPosition, int yPosition)
+        {
+            // Set the cursor position to the desired coordinates
+            if (!ImportMethods.SetCursorPos(xPosition, yPosition))
+            {
+                return false;
+            }
+
+            ImportMethods.mouse_event(LeftMouseButtonDown, 0, 0, 0, 0);
+            ImportMethods.mouse_event(LeftMouseButtonUp, 0, 0, 0, 0);
+
+            return true;
+        }
+
         public bool InjectMouseClick(IntPtr windowHandle, int xPosition, int yPosition, bool shouldFocusWindow)
         {
             FocusWindowIfNeeded(windowHandle, shouldFocusWindow);
