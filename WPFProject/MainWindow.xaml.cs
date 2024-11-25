@@ -113,11 +113,24 @@ namespace WPFProject
                 double x2 = Math.Max(startPoint.X, endPoint.X);
                 double y2 = Math.Max(startPoint.Y, endPoint.Y);
 
-                MessageBox.Show($"Top Left: ({x1}, {y1})\nBottom Right: ({x2}, {y2})");
+                CoordinatesTextBox.Text = $"Top Left: ({x1}, {y1})\nBottom Right: ({x2}, {y2})";
 
-                selectionRectangleRect.Visibility = Visibility.Collapsed;
-                isSelectingArea = false;
+                ClearAndReset();
             }
+        }
+
+        private void ClearAndReset()
+        {
+            // Reset the selection state
+            isSelectingArea = false;
+            selectionRectangleRect.Visibility = Visibility.Collapsed;
+            selectionRectangle.Rect = new Rect();
+
+            // Restore the main window
+            WindowState = WindowState.Normal;
+            WindowStyle = WindowStyle.None;
+            this.Opacity = 1;
+            isTransparent = false;
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

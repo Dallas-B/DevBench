@@ -18,6 +18,13 @@
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
         </Canvas>
-        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,64,0,0"/>
+        <TextBox x:Name="CoordinatesTextBox"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Width="300"
+                 Height="47"
+                 Margin="0,100,0,0"
+                 IsReadOnly="True" />
     </Grid>
 </Window>
