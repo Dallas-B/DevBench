@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -69,13 +70,23 @@ namespace WPFProject
                     int minY = Math.Min(y1, y2);
                     int maxY = Math.Max(y1, y2);
 
-                    // Generate random values within the bounds
-                    Random random = new Random();
-                    int randomX = random.Next(minX, maxX);
-                    int randomY = random.Next(minY, maxY);
+                    // Get the number of times to generate random values
+                    if (!int.TryParse(NumberOfInputsTextBox.Text, out int inputCount) || inputCount <= 0)
+                    {
+                        MessageBox.Show("Please enter a valid positive integer for the number of inputs.");
+                        return;
+                    }
 
-                    IInputInjector injector = new InputInjector();
-                    injector.InjectMouseClick(randomX, randomY);
+                    for (int i = 0; i < inputCount; i++)
+                    {
+                        // Generate random values within the bounds
+                        Random random = new Random();
+                        int randomX = random.Next(minX, maxX);
+                        int randomY = random.Next(minY, maxY);
+
+                        IInputInjector injector = new InputInjector();
+                        injector.InjectMouseClick(randomX, randomY);
+                    }
                 }
                 catch (FormatException)
                 {
@@ -86,6 +97,17 @@ namespace WPFProject
             {
                 MessageBox.Show("Error: Coordinates are not properly formatted.");
             }
+        }
+
+        private void NumberOfInputsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private bool IsTextNumeric(string text)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            return !regex.IsMatch(text);
         }
 
         private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)

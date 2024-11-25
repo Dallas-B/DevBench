@@ -27,5 +27,13 @@
                  Height="47"
                  Margin="0,100,0,0"
                  IsReadOnly="True" />
+        <TextBox x:Name="NumberOfInputsTextBox"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="110"
+                 Height="20"
+                 Margin="240,68,0,0"
+                 PreviewTextInput="NumberOfInputsTextBox_PreviewTextInput"
+                 ToolTip="Enter the number of inputs to inject" />
     </Grid>
 </Window>
