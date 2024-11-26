@@ -49,8 +49,16 @@ namespace WPFProject
 
         private void InjectInput_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(SpeedOfInput.Text))
+            {
+                MessageBox.Show("The input speed is required. Please enter a value.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             // Parse the coordinates from the CoordinatesTextBox
             string[] lines = CoordinatesTextBox.Text.Split('\n');
+
+            int inputSpeed = int.Parse(SpeedOfInput.Text);
+
             if (lines.Length == 2)
             {
                 try
@@ -84,6 +92,8 @@ namespace WPFProject
                         int randomX = random.Next(minX, maxX);
                         int randomY = random.Next(minY, maxY);
 
+                        Thread.Sleep(inputSpeed);
+                        
                         IInputInjector injector = new InputInjector();
                         injector.InjectMouseClick(randomX, randomY);
                     }
@@ -97,6 +107,11 @@ namespace WPFProject
             {
                 MessageBox.Show("Error: Coordinates are not properly formatted.");
             }
+        }
+
+        private void SpeedOfInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
         }
 
         private void NumberOfInputsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)

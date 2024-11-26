@@ -35,5 +35,14 @@
                  Margin="240,68,0,0"
                  PreviewTextInput="NumberOfInputsTextBox_PreviewTextInput"
                  ToolTip="Enter the number of inputs to inject" />
+        <TextBox x:Name="SpeedOfInput"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Top"
+                 Width="110"
+                 Height="20"
+                 Margin="240,35,0,0"
+                 PreviewTextInput="SpeedOfInput_PreviewTextInput"
+                 ToolTip="Enter the speed of injected input" />
+        <TextBlock Margin="87,37,168,148">Input speed in milliseconds</TextBlock>
     </Grid>
 </Window>
