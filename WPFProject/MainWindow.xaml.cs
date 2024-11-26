@@ -49,9 +49,9 @@ namespace WPFProject
 
         private void InjectInput_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(SpeedOfInput.Text))
+            if (string.IsNullOrWhiteSpace(SpeedOfInput.Text) || string.IsNullOrEmpty(CoordinatesTextBox.Text))
             {
-                MessageBox.Show("The input speed is required. Please enter a value.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("The input speed and input count is required. Please enter a value.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
             // Parse the coordinates from the CoordinatesTextBox

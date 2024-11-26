@@ -18,21 +18,21 @@
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
         </Canvas>
-        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,68,0,0"/>
-        <Button Content="Inject Input" Click="InjectInput_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,68,0,0"/>
+        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,24,0,0"/>
+        <Button Content="Inject Input" Click="InjectInput_Click" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
         <TextBox x:Name="CoordinatesTextBox"
-                 HorizontalAlignment="Center"
+                 HorizontalAlignment="Left"
                  VerticalAlignment="Top"
-                 Width="300"
+                 Width="178"
                  Height="47"
-                 Margin="0,100,0,0"
+                 Margin="106,24,0,0"
                  IsReadOnly="True" />
         <TextBox x:Name="NumberOfInputsTextBox"
                  HorizontalAlignment="Left"
-                 VerticalAlignment="Top"
+                 VerticalAlignment="Center"
                  Width="110"
                  Height="20"
-                 Margin="240,68,0,0"
+                 Margin="106,0,0,0"
                  PreviewTextInput="NumberOfInputsTextBox_PreviewTextInput"
                  ToolTip="Enter the number of inputs to inject" />
         <TextBox x:Name="SpeedOfInput"
@@ -40,9 +40,9 @@
                  VerticalAlignment="Top"
                  Width="110"
                  Height="20"
-                 Margin="240,35,0,0"
+                 Margin="106,138,0,0"
                  PreviewTextInput="SpeedOfInput_PreviewTextInput"
                  ToolTip="Enter the speed of injected input" />
-        <TextBlock Margin="87,37,168,148">Input speed in milliseconds</TextBlock>
+        <TextBlock Margin="10,138,301,42" Text="Input speed(ms)"/>
     </Grid>
 </Window>
