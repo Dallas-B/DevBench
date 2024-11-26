@@ -43,5 +43,11 @@
                  Margin="0,168,0,0"
                  PreviewTextInput="SpeedOfInput_PreviewTextInput"
                  ToolTip="Enter the speed of injected input" />
+        <TextBlock x:Name="ClockTextBlock"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   FontSize="32"
+                   Margin="0,322,0,0"
+                   TextAlignment="Center" />
     </Grid>
 </Window>

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using WPFProject.InputController;
 
 namespace WPFProject
@@ -14,11 +15,13 @@ namespace WPFProject
         private bool isSelectingArea = false;
         private bool isTransparent = false;
         private bool isDragging = false;
+        private DispatcherTimer timer;
 
         public MainWindow()
         {
             InitializeComponent();
             InitializeSelectionRectangle();
+            InitializeClock();
         }
 
         private void ClearAndReset()
@@ -119,6 +122,15 @@ namespace WPFProject
             e.Handled = !IsTextNumeric(e.Text);
         }
 
+        private void InitializeClock()
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            // Event handler for the timer
+            timer.Tick += Timer_Tick; 
+            timer.Start();
+        }
+
         private bool IsTextNumeric(string text)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -161,6 +173,13 @@ namespace WPFProject
                 this.Opacity = 1;
                 isTransparent = false;
             }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            // Update the TextBlock with the current time
+            // 24-hour format | "hh:mm:ss tt" for 12-hour format with AM/PM
+            ClockTextBlock.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
