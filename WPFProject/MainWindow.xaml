@@ -6,19 +6,80 @@
         MouseLeftButtonUp="Window_MouseLeftButtonUp"
         MouseMove="Window_MouseMove"
         WindowStyle="None" AllowsTransparency="True" Background="White">
+    <Window.Resources>
+        <!-- Style for a Button with white background and rounded corners -->
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <!-- Set the corner radius here -->
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-
-        <Button x:Name="MinimizeButton" Content="_" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Click="MinimizeButton_Click" Margin="0,0,30,0"/>
-        <Button x:Name="CloseButton" Content="X" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Width="30" Click="CloseButton_Click"/>
+        <Button x:Name="MinimizeButton" 
+                Grid.Column="0" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top"
+                Width="30" 
+                Click="MinimizeButton_Click" 
+                Margin="0,0,30,0">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Assets/minimize-sign.png" Width="15" Height="15"/>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,0,0"/>
+            </StackPanel>
+        </Button>
+        <Button x:Name="CloseButton" 
+                Grid.Column="0" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Width="30" 
+                Click="CloseButton_Click">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Assets/cross.png" Width="15" Height="15"/>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,0,0"/>
+            </StackPanel>
+        </Button>
         <Canvas>
             <Rectangle x:Name="selectionRectangleRect" Stroke="Blue" StrokeThickness="1" Visibility="Hidden"/>
         </Canvas>
-        <Button Content="Select Area" Click="SelectArea_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="42,48,0,0"/>
-        <Button Content="Inject Input" Click="InjectInput_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,218,0,0"/>
+        <Button Style="{StaticResource RoundedButtonStyle}"
+                Click="SelectArea_Click" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,32,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Assets/selection.png" Width="24" Height="24" Margin="5"/>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,0,0"/>
+            </StackPanel>
+        </Button>
+        <Button Style="{StaticResource RoundedButtonStyle}"
+                Click="InjectInput_Click" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Top" 
+                Margin="0,210,0,0">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="Assets/click.png" Width="24" Height="24" Margin="5"/>
+                <TextBlock VerticalAlignment="Center" Margin="0,0,0,0"/>
+            </StackPanel>
+        </Button>
         <TextBlock Text="Input speed(ms)" Margin="32,142,33,242"/>
         <TextBox x:Name="CoordinatesTextBox"
                  HorizontalAlignment="Center"
