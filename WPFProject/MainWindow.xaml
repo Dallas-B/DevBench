@@ -94,7 +94,7 @@
                                Fill="Transparent"
                                Visibility="Collapsed"/>
                 </Canvas>
-                <!-- Rounded Button -->
+                <!-- Select Area Button -->
                 <Button Style="{StaticResource RoundedButtonStyle}"
                         Click="SelectArea_Click" 
                         HorizontalAlignment="Center" 
@@ -106,15 +106,27 @@
                     </StackPanel>
                 </Button>
 
-                <!-- Additional Buttons -->
+                <!-- Inject Click Button -->
                 <Button Style="{StaticResource RoundedButtonStyle}"
                         Click="InjectInput_Click" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Top" 
-                        Margin="0,100,0,0">
+                        Margin="0,100,100,0">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Assets/click.png" Width="24" Height="24" Margin="5"/>
                         <TextBlock VerticalAlignment="Center" Text="Inject Click" Margin="0,0,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Inject Touch Button -->
+                <Button Style="{StaticResource RoundedButtonStyle}"
+                        Click="InjectInput_Touch" 
+                        HorizontalAlignment="Center" 
+                        VerticalAlignment="Top" 
+                        Margin="0,100,-106,0"> 
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Assets/tap.png" Width="24" Height="24" Margin="5"/>
+                        <TextBlock VerticalAlignment="Center" Text="Inject Touch" Margin="0,0,0,0"/>
                     </StackPanel>
                 </Button>
 

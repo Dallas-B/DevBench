@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using WPFProject.InputController;
@@ -57,63 +58,53 @@ namespace WPFProject
 
         private void InjectInput_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(SpeedOfInput.Text) || string.IsNullOrEmpty(CoordinatesTextBox.Text))
+            int[] MinMaxValues = ParseCoordinates();
+
+            // Get the number of times to generate random values
+            if (!int.TryParse(NumberOfInputsTextBox.Text, out int inputCount) || inputCount <= 0)
             {
-                MessageBox.Show("The input speed and input count is required. Please enter a value.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid positive integer for the number of inputs.");
                 return;
             }
-            // Parse the coordinates from the CoordinatesTextBox
-            string[] lines = CoordinatesTextBox.Text.Split('\n');
 
-            int inputSpeed = int.Parse(SpeedOfInput.Text);
-
-            if (lines.Length == 2)
+            for (int i = 0; i < inputCount; i++)
             {
-                try
-                {
-                    // Extract the values for Top Left and Bottom Right
-                    string[] topLeftValues = lines[0].Replace("Top Left: (", "").Replace(")", "").Split(',');
-                    string[] bottomRightValues = lines[1].Replace("Bottom Right: (", "").Replace(")", "").Split(',');
+                // Generate random values within the bounds
+                Random random = new Random();
+                int randomX = random.Next(MinMaxValues[0], MinMaxValues[1]);
+                int randomY = random.Next(MinMaxValues[2], MinMaxValues[3]);
 
-                    int x1 = int.Parse(topLeftValues[0]);
-                    int y1 = int.Parse(topLeftValues[1]);
-                    int x2 = int.Parse(bottomRightValues[0]);
-                    int y2 = int.Parse(bottomRightValues[1]);
-
-                    // Determine the bounds for random number generation
-                    int minX = Math.Min(x1, x2);
-                    int maxX = Math.Max(x1, x2);
-                    int minY = Math.Min(y1, y2);
-                    int maxY = Math.Max(y1, y2);
-
-                    // Get the number of times to generate random values
-                    if (!int.TryParse(NumberOfInputsTextBox.Text, out int inputCount) || inputCount <= 0)
-                    {
-                        MessageBox.Show("Please enter a valid positive integer for the number of inputs.");
-                        return;
-                    }
-
-                    for (int i = 0; i < inputCount; i++)
-                    {
-                        // Generate random values within the bounds
-                        Random random = new Random();
-                        int randomX = random.Next(minX, maxX);
-                        int randomY = random.Next(minY, maxY);
-
-                        Thread.Sleep(inputSpeed);
+                Thread.Sleep(ParseSpeedInput());
                         
-                        IInputInjector injector = new InputInjector();
-                        injector.InjectMouseClick(randomX, randomY);
-                    }
-                }
-                catch (FormatException)
-                {
-                    MessageBox.Show("Error: Invalid format in coordinates.");
-                }
+                IInputInjector injector = new InputInjector();
+                injector.InjectMouseClick(randomX, randomY);
             }
-            else
+        }
+
+        private void InjectInput_Touch(object sender, RoutedEventArgs e)
+        {
+            int[] MinMaxValues = ParseCoordinates();
+
+            IntPtr hwnd = new WindowInteropHelper(this).Handle;
+
+            // Get the number of times to generate random values
+            if (!int.TryParse(NumberOfInputsTextBox.Text, out int inputCount) || inputCount <= 0)
             {
-                MessageBox.Show("Error: Coordinates are not properly formatted.");
+                MessageBox.Show("Please enter a valid positive integer for the number of inputs.");
+                return;
+            }
+
+            for (int i = 0; i < inputCount; i++)
+            {
+                // Generate random values within the bounds
+                Random random = new Random();
+                int randomX = random.Next(MinMaxValues[0], MinMaxValues[1]);
+                int randomY = random.Next(MinMaxValues[2], MinMaxValues[3]);
+
+                Thread.Sleep(ParseSpeedInput());
+
+                IInputInjector injector = new InputInjector();
+                injector.InjectTouchInput(hwnd, randomX, randomY, true);
             }
         }
 
@@ -148,6 +139,58 @@ namespace WPFProject
         private void NumberOfInputsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextNumeric(e.Text);
+        }
+
+        private int[] ParseCoordinates()
+        {
+            int[] MinMaxValues = new int[4];
+            if (string.IsNullOrWhiteSpace(SpeedOfInput.Text) || string.IsNullOrEmpty(CoordinatesTextBox.Text))
+            {
+                MessageBox.Show("The input speed and input count is required. Please enter a value.", "Input Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return MinMaxValues;
+            }
+            // Parse the coordinates from the CoordinatesTextBox
+            string[] lines = CoordinatesTextBox.Text.Split('\n');
+
+            int inputSpeed = int.Parse(SpeedOfInput.Text);
+
+            if (lines.Length == 2)
+            {
+                try
+                {
+                    // Extract the values for Top Left and Bottom Right
+                    string[] topLeftValues = lines[0].Replace("Top Left: (", "").Replace(")", "").Split(',');
+                    string[] bottomRightValues = lines[1].Replace("Bottom Right: (", "").Replace(")", "").Split(',');
+
+                    int x1 = int.Parse(topLeftValues[0]);
+                    int y1 = int.Parse(topLeftValues[1]);
+                    int x2 = int.Parse(bottomRightValues[0]);
+                    int y2 = int.Parse(bottomRightValues[1]);
+
+                    // Determine the bounds for random number generation
+                    MinMaxValues[0] = Math.Min(x1, x2);
+                    MinMaxValues[1] = Math.Max(x1, x2);
+                    MinMaxValues[2] = Math.Min(y1, y2);
+                    MinMaxValues[3] = Math.Max(y1, y2);
+
+                    return MinMaxValues;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Error: Invalid format in coordinates.");
+                    return MinMaxValues;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Error: Coordinates are not properly formatted.");
+                return MinMaxValues;
+            }
+        }
+
+        private int ParseSpeedInput()
+        {
+            return int.Parse(SpeedOfInput.Text);
         }
 
         private void SelectArea_Click(object sender, RoutedEventArgs e)
