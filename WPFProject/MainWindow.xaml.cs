@@ -45,6 +45,11 @@ namespace WPFProject
 
         private void InitializeSelectionRectangle()
         {
+            // Hook up events for selection
+            SelectionCanvas.MouseLeftButtonDown += Window_MouseLeftButtonDown;
+            SelectionCanvas.MouseMove += Window_MouseMove;
+            SelectionCanvas.MouseLeftButtonUp += Window_MouseLeftButtonUp;
+
             selectionRectangle = new RectangleGeometry();
             selectionRectangleRect.Fill = new SolidColorBrush(Color.FromArgb(50, 0, 0, 255));
             selectionRectangleRect.DataContext = selectionRectangle;
@@ -112,16 +117,6 @@ namespace WPFProject
             }
         }
 
-        private void SpeedOfInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextNumeric(e.Text);
-        }
-
-        private void NumberOfInputsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = !IsTextNumeric(e.Text);
-        }
-
         private void InitializeClock()
         {
             timer = new DispatcherTimer();
@@ -150,6 +145,11 @@ namespace WPFProject
             WindowState = WindowState.Minimized;
         }
 
+        private void NumberOfInputsTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
+        }
+
         private void SelectArea_Click(object sender, RoutedEventArgs e)
         {
             isSelectingArea = !isSelectingArea;
@@ -170,9 +170,14 @@ namespace WPFProject
                 WindowState = WindowState.Normal;
                 WindowStyle = WindowStyle.None;
 
-                this.Opacity = 1;
+                SelectionCanvas.Opacity = 1;
                 isTransparent = false;
             }
+        }
+
+        private void SpeedOfInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextNumeric(e.Text);
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -182,12 +187,20 @@ namespace WPFProject
             ClockTextBlock.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
+        private void TitleBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (isSelectingArea)
             {
                 // Start point of the selection
-                startPoint = e.GetPosition(this);
+                startPoint = e.GetPosition(SelectionCanvas);
 
                 // Reset rectangle properties
                 Canvas.SetLeft(selectionRectangleRect, startPoint.X);
@@ -208,7 +221,7 @@ namespace WPFProject
             }
             if (isSelectingArea)
             {
-                Point endPoint = e.GetPosition(this);
+                Point endPoint = e.GetPosition(SelectionCanvas);
 
                 double x1 = Math.Min(startPoint.X, endPoint.X);
                 double y1 = Math.Min(startPoint.Y, endPoint.Y);
@@ -225,7 +238,7 @@ namespace WPFProject
         {
             if (isSelectingArea && e.LeftButton == MouseButtonState.Pressed)
             {
-                Point currentPoint = e.GetPosition(this);
+                Point currentPoint = e.GetPosition(SelectionCanvas);
 
                 // Calculate the new rectangle coordinates
                 double x = Math.Min(currentPoint.X, startPoint.X);
