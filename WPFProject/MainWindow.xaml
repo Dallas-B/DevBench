@@ -91,7 +91,7 @@
                     <TextBlock VerticalAlignment="Center" Margin="0,0,0,0"/>
                 </StackPanel>
             </Button>
-            <TextBlock Text="Input speed(ms)" Margin="32,142,33,242"/>
+            <TextBlock Text="Input speed(ms)" Margin="31,138,32,242"/>
             <TextBox x:Name="CoordinatesTextBox"
                  HorizontalAlignment="Center"
                  VerticalAlignment="Top"

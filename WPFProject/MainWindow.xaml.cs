@@ -184,19 +184,18 @@ namespace WPFProject
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left && e.GetPosition(this).Y <= 25)
-            {
-                isDragging = true;
-                startPoint = e.GetPosition(this);
-            }
             if (isSelectingArea)
             {
+                // Start point of the selection
                 startPoint = e.GetPosition(this);
+
+                // Reset rectangle properties
                 Canvas.SetLeft(selectionRectangleRect, startPoint.X);
                 Canvas.SetTop(selectionRectangleRect, startPoint.Y);
                 selectionRectangleRect.Width = 0;
                 selectionRectangleRect.Height = 0;
-                selectionRectangle.Rect = new Rect(startPoint, startPoint);
+
+                // Show the rectangle
                 selectionRectangleRect.Visibility = Visibility.Visible;
             }
         }
@@ -224,28 +223,23 @@ namespace WPFProject
 
         private void Window_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDragging)
-            {
-                Point currentPosition = e.GetPosition(this);
-
-                double differenceX = currentPosition.X - startPoint.X;
-                double differenceY = currentPosition.Y - startPoint.Y;
-
-                Left += differenceX;
-                Top += differenceY;
-            }
             if (isSelectingArea && e.LeftButton == MouseButtonState.Pressed)
             {
                 Point currentPoint = e.GetPosition(this);
 
+                // Calculate the new rectangle coordinates
                 double x = Math.Min(currentPoint.X, startPoint.X);
                 double y = Math.Min(currentPoint.Y, startPoint.Y);
-                double width = Math.Max(currentPoint.X, startPoint.X) - x;
-                double height = Math.Max(currentPoint.Y, startPoint.Y) - y;
+                double width = Math.Abs(currentPoint.X - startPoint.X);
+                double height = Math.Abs(currentPoint.Y - startPoint.Y);
 
+                // Update the rectangle's position and size
+                Canvas.SetLeft(selectionRectangleRect, x);
+                Canvas.SetTop(selectionRectangleRect, y);
                 selectionRectangleRect.Width = width;
                 selectionRectangleRect.Height = height;
 
+                // Update the selection rectangle geometry
                 selectionRectangle.Rect = new Rect(x, y, width, height);
             }
         }
