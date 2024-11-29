@@ -12,7 +12,7 @@ the top left and bottom right x and y screen coordinates from that bounding box.
 Allows the user to inject a configurable number of random mouse clicks with the bounds of
 the bounding box previously set by the user.
 
-2.1 Input Speed
+3. Input Speed
 Allows the user to set the speed (in milliseconds) at which the input injector will execute
 system input.
 
