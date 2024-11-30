@@ -196,6 +196,7 @@ namespace WPFProject
         private void SelectArea_Click(object sender, RoutedEventArgs e)
         {
             isSelectingArea = !isSelectingArea;
+            this.Opacity = 1;
 
             if (isSelectingArea)
             {
