@@ -1,0 +1,71 @@
+name: Build and Release DevBench
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build project
+        run: dotnet build --configuration Release
+
+      - name: Publish project
+        run: dotnet publish --configuration Release --output ./publish
+
+      - name: Fetch Latest Release Version
+        id: get_latest_release
+        uses: octokit/request-action@v2.1.1
+        with:
+          route: GET /repos/${{ github.repository }}/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Increment Version
+        id: increment_version
+        run: |
+          # Check if the latest release exists and extract the version
+          LATEST_TAG=$(echo '${{ steps.get_latest_release.outputs.data }}' | jq -r '.tag_name // "v0.0.0"')
+          echo "Latest release tag: $LATEST_TAG"
+          
+          # Remove 'v' prefix and split version
+          VERSION=${LATEST_TAG#v}
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          # Increment the patch number
+          PATCH=$((PATCH + 1))
+
+          # Construct the new version
+          NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "New version: $NEW_VERSION"
+
+          # Save the new version
+          echo "NEW_TAG_NAME=$NEW_VERSION" >> $GITHUB_ENV
+          echo "NEW_RELEASE_NAME=Build $NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.NEW_TAG_NAME }}
+          release_name: ${{ env.NEW_RELEASE_NAME }}
+          draft: false
+          prerelease: false
+          body: |
+            Automated release created by GitHub Actions.
