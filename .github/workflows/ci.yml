@@ -30,6 +30,7 @@ jobs:
 
       - name: Fetch Latest Release Version
         id: get_latest_release
+        shell: bash
         run: |
           # Use curl to get the latest release tag
           LATEST_RELEASE=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
