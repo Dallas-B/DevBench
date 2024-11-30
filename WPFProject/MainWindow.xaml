@@ -162,8 +162,8 @@
                 <TextBlock x:Name="ClockTextBlock"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Top"
-                           FontSize="32"
-                           Margin="0,360,0,0"
+                           FontSize="20"
+                           Margin="300,520,0,0"
                            TextAlignment="Center"/>
             </Grid>
         </Grid>
