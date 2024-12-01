@@ -17,14 +17,36 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Grid>
+                            <!-- Button Background -->
+                            <Border x:Name="Border"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="5">
-                            <!-- Set the corner radius here -->
+                                <Border.Effect>
+                                    <DropShadowEffect ShadowDepth="2" BlurRadius="5" Opacity="0.3"/>
+                                </Border.Effect>
+                            </Border>
+                            <!-- Button Content -->
                             <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
+                                          VerticalAlignment="Center"/>
+                        </Grid>
+                        <!-- Triggers to handle pressed state -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightGray"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="DarkGray"/>
+                                <Setter TargetName="Border" Property="RenderTransform">
+                                    <Setter.Value>
+                                        <TranslateTransform X="1" Y="1"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightBlue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -99,7 +121,7 @@
                         Click="SelectArea_Click" 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Top" 
-                        Margin="0,32,0,0">
+                        Margin="0,32,0,0" Width="110">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Assets/selection.png" Width="24" Height="24" Margin="5"/>
                         <TextBlock VerticalAlignment="Center" Text="Select Area" Margin="0,0,0,0"/>
@@ -109,10 +131,10 @@
                 <!-- Inject Click Button -->
                 <Button Style="{StaticResource RoundedButtonStyle}"
                         Click="InjectInput_Click" 
-                        HorizontalAlignment="Center" 
+                        HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
-                        Margin="0,100,100,0">
-                    <StackPanel Orientation="Horizontal">
+                        Margin="86,100,0,0" Width="105">
+                    <StackPanel Orientation="Horizontal" Width="94">
                         <Image Source="Assets/click.png" Width="24" Height="24" Margin="5"/>
                         <TextBlock VerticalAlignment="Center" Text="Inject Click" Margin="0,0,0,0"/>
                     </StackPanel>
@@ -121,9 +143,9 @@
                 <!-- Inject Touch Button -->
                 <Button Style="{StaticResource RoundedButtonStyle}"
                         Click="InjectInput_Touch" 
-                        HorizontalAlignment="Center" 
+                        HorizontalAlignment="Left" 
                         VerticalAlignment="Top" 
-                        Margin="0,100,-106,0"> 
+                        Margin="208,100,0,0" Width="105">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="Assets/tap.png" Width="24" Height="24" Margin="5"/>
                         <TextBlock VerticalAlignment="Center" Text="Inject Touch" Margin="0,0,0,0"/>
