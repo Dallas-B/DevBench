@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Serilog;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -78,6 +79,7 @@ namespace WPFProject
                         
                 IInputInjector injector = new InputInjector();
                 injector.InjectMouseClick(randomX, randomY);
+                Log.Information($"Mouse click injected at: ({randomX}, {randomY})");
             }
         }
 
@@ -105,6 +107,7 @@ namespace WPFProject
 
                 IInputInjector injector = new InputInjector();
                 injector.InjectTouchInput(hwnd, randomX, randomY, true);
+                Log.Information($"Touch input injected at: ({randomX}, {randomY})");
             }
         }
 
