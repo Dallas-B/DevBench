@@ -8,11 +8,14 @@ DevBench is a comprehensive C# WPF (Windows Presentation Foundation) application
 Allows the user to click and drag a bounding box around anything on screen and retrieve
 the top left and bottom right x and y screen coordinates from that bounding box.
 
-2. Input Injector
+2. Mouse Click Injector
 Allows the user to inject a configurable number of random mouse clicks with the bounds of
 the bounding box previously set by the user.
 
-3. Input Speed
+3. Touch Input Injector                                                                                                                                                                         Allows the user to inject a configurable number of random touch inputs with the bounds of
+the bounding box previously set by the user.
+
+4. Input Speed
 Allows the user to set the speed (in milliseconds) at which the input injector will execute
 system input.
 
