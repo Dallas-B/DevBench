@@ -15,8 +15,6 @@ namespace WPFProject
         private Point startPoint;
         private RectangleGeometry selectionRectangle;
         private bool isSelectingArea = false;
-        private bool isTransparent = false;
-        private bool isDragging = false;
         private DispatcherTimer timer;
 
         public MainWindow()
@@ -37,7 +35,6 @@ namespace WPFProject
             WindowState = WindowState.Normal;
             WindowStyle = WindowStyle.None;
             this.Opacity = 1;
-            isTransparent = false;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -209,7 +206,6 @@ namespace WPFProject
                 WindowStyle = WindowStyle.None;
 
                 this.Opacity = 0.5;
-                isTransparent = true;
             }
             else
             {
@@ -218,7 +214,6 @@ namespace WPFProject
                 WindowStyle = WindowStyle.None;
 
                 SelectionCanvas.Opacity = 1;
-                isTransparent = false;
             }
         }
 
@@ -262,10 +257,6 @@ namespace WPFProject
 
         private void Window_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                isDragging = false;
-            }
             if (isSelectingArea)
             {
                 Point endPoint = e.GetPosition(SelectionCanvas);
